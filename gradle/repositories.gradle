@@ -1,0 +1,19 @@
+ext {
+    repos = [:]
+}
+
+repos += [
+
+    //This Repos should be always used. But they can be commented to use the External repos if "Nexus is down" or "want to perform testing outside of VPN".
+    nexus:"http://arlpscsp01.ecorp.cat.com:8081/nexus/content/groups/public",
+    nexus_cloudera:"http://arlpscsp01.ecorp.cat.com:8081/nexus/content/repositories/cloudera/",
+    nexus_thirdparty:"http://arlpscsp01.ecorp.cat.com:8081/nexus/content/repositories/thirdparty/",
+    nexus_conjars:"http://arlpscsp01.ecorp.cat.com:8081/nexus/content/repositories/conjars/",
+    nexus_central:"http://arlpscsp01.ecorp.cat.com:8081/nexus/content/repositories/central/",
+
+    //If Nexus Goes Down, Uncomment these lines. Be sure to enable Proxy Settings as well. May create a switch for this.
+    cloudera:"https://repository.cloudera.com/artifactory/cloudera-repos/",
+    conjars:"http://conjars.org/repo/",
+    mvncentral:"http://repo1.maven.org/maven2/"
+]
+

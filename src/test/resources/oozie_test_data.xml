@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<oozie-data>
+  <oozie-record>
+    <oozie-id>
+      111
+    </oozie-id>
+    <oozie-name>
+      OOZIE THE GREAT
+    </oozie-name>
+    <oozie-count>
+      1000
+    </oozie-count>
+  </oozie-record>
+  <oozie-record>
+    <oozie-id>
+      222
+    </oozie-id>
+    <oozie-name>
+      OOZIE THE AWESOME
+    </oozie-name>
+    <oozie-count>
+      2000
+    </oozie-count>
+  </oozie-record>
+</oozie-data>

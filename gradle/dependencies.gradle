@@ -1,0 +1,20 @@
+ext {
+        versions = [:]
+        libs = [:]
+}
+versions += [
+]
+libs += [
+        oozieRunner: "com.oozierunner:OozieRunner:1.4.0",
+
+        log4j: "log4j:log4j:1.2.17",
+        junit: "junit:junit:4.11",
+        mockitoCore: 'org.mockito:mockito-core:1.10.19',
+
+        oozieCore: 'org.apache.oozie:oozie-core:4.0.0-cdh5.3.3',
+        oozieClient: 'org.apache.oozie:oozie-client:4.0.0-cdh5.3.3',
+
+        hadoopClient: "org.apache.hadoop:hadoop-client:2.5.0-cdh5.3.3",
+        hadoopCore: "org.apache.hadoop:hadoop-core:2.5.0-mr1-cdh5.3.3",
+        hadoopCommon: "org.apache.hadoop:hadoop-common:2.5.0-cdh5.3.3",
+]

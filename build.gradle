@@ -1,0 +1,98 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.7
+group = 'com.cat.ddsw.oozietest'
+version = '0.1.0-SNAPSHOT'
+
+apply from: "$rootDir/gradle/repositories.gradle"
+apply from: "$rootDir/gradle/dependencies.gradle"
+
+description = """"""
+
+allprojects {
+    apply plugin: 'idea'
+}
+
+idea {
+    module {
+        //excludeDirs += [file('tcserver'),  file('build_tmp')]
+    }
+    project {
+        jdkName = '1.8'
+        languageLevel = '1.7'
+
+        ipr {
+            withXml { xmlFile ->
+                // enable 'Annotation Processors'
+                xmlFile.asNode().component.find { it.@name == 'CompilerConfiguration' }['annotationProcessing'][0].replaceNode {
+                    annotationProcessing {
+                        profile(default: true, name: 'Default', useClasspath: 'true', enabled: true)
+                    }
+                }
+
+                // setup Git root
+                xmlFile.asNode().component.find { it.@name == 'VcsDirectoryMappings' }.replaceNode {
+                    component(name: 'VcsDirectoryMappings') {
+                        mapping(directory: "", vcs: "")
+                        mapping(directory: "\$PROJECT_DIR\$", vcs: 'Git')
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+subprojects {
+
+}
+
+subprojects.each { subproject -> evaluationDependsOn(subproject.path)}
+
+repositories {
+
+    //This Repos should be always used. But they can be commented to use the External repos if "Nexus is down" or "want to perform testing outside of VPN".
+    maven { url repos.nexus }
+    maven { url repos.nexus_cloudera }
+    maven { url repos.nexus_thirdparty }
+    maven { url repos.nexus_conjars }
+    maven { url repos.nexus_central }
+//    maven { url "http://repo.maven.apache.org/maven2" }
+
+    //If Nexus Goes Down, Uncomment these lines. Be sure to enable Proxy Settings as well. May create a switch for this.
+//    maven { url repos.cloudera }
+//    maven { url repos.conjars }
+//    maven { url repos.mvncentral }
+    //mavenCentral()
+}
+
+dependencies {
+    compile([
+            libs.oozieRunner,
+            libs.oozieClient,
+            libs.oozieCore,
+            libs.hadoopCore,
+            libs.hadoopClient,
+            libs.hadoopCommon
+    ])
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+/**
+ *
+ * ####IMPORTANT####
+ * Every Test Case Class needs to be registered under DDSWParallelSuite.java in @Suite.SuiteClasses Block for execution in Parallel.
+ * Nos. of Tests to run in Parallel is Configured in the property below,
+ * Change the maxParallelForks to the number that Machine will sustain from resource perspective.
+ * Currently it is 4. Meaning only 4 Tests will be running in parallel.
+ *
+ */
+test {
+    systemProperties['oozie.properties'] = 'oozie.properties'
+    maxParallelForks = 4
+}
+
+wrapper {
+    gradleVersion = '2.4'
+}
